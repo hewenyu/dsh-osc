@@ -1,0 +1,9 @@
+# Copy to .github/CODEOWNERS and replace the placeholder team. With branch protection's
+# "Require review from Code Owners", a change that loosens a gate (ratchet config or baseline,
+# budget manifest, the checks themselves, standing instructions, the workflow that runs them)
+# needs an owner's approval, even when an agent wrote it.
+/scripts/governance/                 @your-org/governance-owners
+/AGENTS.md                           @your-org/governance-owners
+/CLAUDE.md                           @your-org/governance-owners
+/.github/workflows/governance.yml    @your-org/governance-owners
+/.github/CODEOWNERS                  @your-org/governance-owners

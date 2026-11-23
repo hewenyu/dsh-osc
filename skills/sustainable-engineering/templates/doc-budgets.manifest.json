@@ -1,0 +1,7 @@
+{
+  "//": "Word ceilings for standing documents, checked by scripts/governance/verify-doc-budgets.mjs. Over budget: relocate to the owning home first, condense second, raise only with a written justification in the PR. Keep about 5% headroom after any change.",
+  "AGENTS.md": 1200,
+  "docs/AGENTS.md": 600,
+  "docs/architecture.md": 2400,
+  ".agents/notes/README.md": 900
+}

@@ -1,0 +1,19 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "dsh-osc",
+  "description": "Engineering governance skills for long-lived repositories maintained by humans and AI agents.",
+  "owner": {
+    "name": "hewenyu"
+  },
+  "plugins": [
+    {
+      "name": "sustainable-engineering",
+      "version": "1.0.0",
+      "description": "Keep a repository maintainable for years: AGENTS.md hierarchy, decision notes with rejected alternatives, word budgets, ratchet baselines, defensive habits, and incident-to-guardrail loops.",
+      "source": "./",
+      "strict": false,
+      "skills": ["./skills/sustainable-engineering"],
+      "category": "development"
+    }
+  ]
+}

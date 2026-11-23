@@ -1,0 +1,55 @@
+{
+  "//": "Rules for scripts/governance/ratchet-baseline.mjs. Delete the example rules your stack does not use. Rules match one line at a time unless \"multiline\": true. A rule that scans zero files is an error (exit 2); the cross-language examples carry \"allowEmpty\": true, so remove it from every rule that covers your main source tree. mustMatch and mustNotMatch are self-tests checked on every run. Adopt a rule with --init (first baseline) or --init-rule <id> (rule added later); afterwards new findings fail and the baseline only shrinks via --prune. Never delete a recorded rule: mark it { \"id\": ..., \"retired\": \"<reason>\" }. For linter output (ruff, eslint, clippy, golangci-lint), declare { \"id\": ..., \"external\": true } and pass --findings <json>.",
+  "baseline": "scripts/governance/ratchet.baseline.json",
+  "exclude": ["vendor/**", "third_party/**", "**/node_modules/**", "**/*.min.js", "**/*.generated.*"],
+  "rules": [
+    {
+      "id": "no-ts-any-cast",
+      "pattern": "\\bas\\s+any\\b",
+      "include": ["**/*.{ts,tsx,mts,cts}"],
+      "exclude": ["**/*.d.ts"],
+      "mustMatch": ["const x = y as any"],
+      "mustNotMatch": ["const x = y as unknown as Config", "const company = 1"],
+      "message": "Use a typed value, or validate untrusted data at the boundary, instead of `as any`."
+    },
+    {
+      "id": "no-empty-catch",
+      "multiline": true,
+      "pattern": "\\bcatch\\s*(?:\\([^)]*\\))?\\s*\\{\\s*\\}",
+      "include": ["**/*.{ts,tsx,mts,cts,js,jsx,mjs,cjs,java,kt,cs}"],
+      "allowEmpty": true,
+      "mustMatch": ["try { run() } catch (e) {\n}", "} catch {}"],
+      "mustNotMatch": ["} catch (e) {\n  log(e)\n}"],
+      "message": "Handle, log, or rethrow the error; an empty catch hides failures."
+    },
+    {
+      "id": "no-python-silent-except",
+      "multiline": true,
+      "pattern": "^[ \\t]*except\\b[^:\\n]*:(?:\\s*#[^\\n]*)*\\s*pass\\b",
+      "include": ["**/*.py"],
+      "allowEmpty": true,
+      "mustMatch": ["try:\n    run()\nexcept Exception:\n    pass\n", "except (OSError, ValueError) as e: pass", "except:\n\n    pass", "except Exception:  # best effort\n    pass"],
+      "mustNotMatch": ["except Exception:\n    log.exception('x')\n    raise", "except ValueError:\n    passed = False"],
+      "message": "Handle or re-raise; a handler whose body is only `pass` silently swallows the error."
+    },
+    {
+      "id": "no-python-bare-except",
+      "pattern": "^\\s*except\\s*:",
+      "include": ["**/*.py"],
+      "allowEmpty": true,
+      "mustMatch": ["    except:"],
+      "mustNotMatch": ["    except ValueError:"],
+      "message": "Catch a named exception type; a bare except also swallows KeyboardInterrupt and SystemExit."
+    },
+    {
+      "id": "no-rust-unwrap-in-src",
+      "pattern": "\\.unwrap\\(\\)",
+      "include": ["**/src/**/*.rs"],
+      "exclude": ["**/tests/**", "**/benches/**"],
+      "allowEmpty": true,
+      "mustMatch": ["let v = parse(s).unwrap();"],
+      "mustNotMatch": ["let v = parse(s)?;", "let v = parse(s).unwrap_or_default();"],
+      "message": "Propagate the error with `?` or handle it; `unwrap()` turns a recoverable failure into a panic."
+    }
+  ]
+}

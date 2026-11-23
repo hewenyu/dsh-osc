@@ -1,0 +1,13 @@
+{
+  "//": "Word ceilings for this repository (CJK characters count as words). SKILL.md is capped at 1,500 so it stays scannable in one pass; each reference holds one topic within 1,200. Over budget: relocate to the owning reference first, condense second, raise last with a justification in the PR.",
+  "AGENTS.md": 600,
+  "README.md": 2300,
+  "skills/sustainable-engineering/SKILL.md": 1500,
+  "skills/sustainable-engineering/references/information-architecture.md": 1200,
+  "skills/sustainable-engineering/references/agent-notes.md": 1200,
+  "skills/sustainable-engineering/references/mechanical-enforcement.md": 1200,
+  "skills/sustainable-engineering/references/defensive-habits.md": 1200,
+  "skills/sustainable-engineering/references/evolution-and-incidents.md": 1200,
+  "skills/sustainable-engineering/references/adoption-ladder.md": 1200,
+  "skills/sustainable-engineering/references/review-and-audit.md": 1200
+}

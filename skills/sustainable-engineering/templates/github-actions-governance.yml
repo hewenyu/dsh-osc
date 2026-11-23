@@ -1,0 +1,83 @@
+# Copy to .github/workflows/governance.yml. CI is the exhaustive gate: every check runs on
+# every pull request, regardless of what the local hooks covered. Steps for scripts you have
+# not installed yet are skipped, so the file works from Week 1 onward.
+# GitHub expressions are passed through env, never pasted into shell text.
+name: governance
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  governance:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # --base needs the base branch history
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Resolve the comparison base
+        env:
+          BASE_REF: ${{ github.base_ref }}
+          BEFORE: ${{ github.event.before }}
+        run: |
+          base=""
+          if [ -n "$BASE_REF" ]; then
+            base="origin/$BASE_REF"
+          elif [ -n "$BEFORE" ] && git cat-file -e "$BEFORE^{commit}" 2>/dev/null; then
+            base="$BEFORE"
+          fi
+          printf 'GOV_BASE=%s\n' "$base" >> "$GITHUB_ENV"
+
+      # Ceiling changes are enforced at PR review (BASE_REF only; protect the branch so changes
+      # land through PRs). Push runs skip --base so an approved governance-override merge keeps main green.
+      - name: Doc word budgets (ceilings only rise with the governance-override label)
+        env:
+          BASE_REF: ${{ github.base_ref }}
+          OVERRIDE: ${{ contains(github.event.pull_request.labels.*.name, 'governance-override') }}
+        run: |
+          set --
+          if [ -n "$BASE_REF" ]; then set -- "$@" --base "origin/$BASE_REF"; fi
+          if [ -n "$BASE_REF" ] && [ "$OVERRIDE" = "true" ]; then set -- "$@" --allow-ceiling-change; fi
+          node scripts/governance/verify-doc-budgets.mjs "$@"
+
+      - name: Agent Notes layout and format (archived and rejected notes frozen)
+        run: node scripts/governance/verify-agent-notes.mjs ${GOV_BASE:+--base "$GOV_BASE"}
+
+      - name: Markdown links
+        run: node scripts/governance/verify-md-links.mjs
+
+      # Growing team: skipped only while no ratchet exists here or at the comparison base, so
+      # deleting an adopted baseline, or committing a config without one, fails loudly.
+      - name: Legacy ratchet (no new findings; no loosening relative to the base)
+        run: |
+          adopted_at_base=false
+          if [ -n "$GOV_BASE" ]; then
+            merge_base=$(git merge-base "$GOV_BASE" HEAD)
+            if git cat-file -e "$merge_base:scripts/governance/ratchet.baseline.json" 2>/dev/null; then
+              adopted_at_base=true
+            fi
+          fi
+          if [ ! -f scripts/governance/ratchet.baseline.json ] && [ ! -f scripts/governance/ratchet.config.json ] && [ "$adopted_at_base" = false ]; then
+            echo "ratchet not adopted: skipped"
+            exit 0
+          fi
+          node scripts/governance/ratchet-baseline.mjs ${GOV_BASE:+--base "$GOV_BASE"}
+
+      # Generated-artifact freshness: prefer the generator's own --check mode. Otherwise
+      # regenerate and fail on modified or untracked output:
+      # - name: Generated catalogs are fresh
+      #   run: |
+      #     <your generator>
+      #     git diff --exit-code -- <generated paths>
+      #     test -z "$(git status --porcelain --untracked-files=all -- <generated paths>)"
+
+      # Your stack's exhaustive gates: full tests with coverage, typecheck, lint, build.

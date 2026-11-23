@@ -1,0 +1,37 @@
+# Local git hooks (https://lefthook.dev). Keep them fast and scoped to what changed;
+# CI owns the exhaustive, repository-wide gate set (see github-actions-governance.yml).
+# Install: npx lefthook install   (or: brew install lefthook && lefthook install)
+# The governance scripts read the working tree, not only staged content: an unstaged draft
+# note or doc can fail a commit. Stash it, or move that job to pre-push.
+
+pre-commit:
+  parallel: true
+  jobs:
+    - name: whitespace (staged)
+      run: git diff --cached --check
+
+    - name: agent notes format
+      glob: '.agents/notes/**'
+      run: node scripts/governance/verify-agent-notes.mjs
+
+    - name: doc word budgets
+      glob: '*.md'
+      run: node scripts/governance/verify-doc-budgets.mjs
+
+    - name: markdown links (staged docs present)
+      glob: '*.md'
+      run: node scripts/governance/verify-md-links.mjs
+
+    # Add your stack's staged-file linter/formatter here, scoped with {staged_files}, e.g.
+    # - name: lint (staged)
+    #   glob: '*.{ts,tsx}'
+    #   run: npx eslint --fix {staged_files}
+    #   stage_fixed: true
+
+pre-push:
+  jobs:
+    - name: legacy ratchet (no new violations; skipped only while neither config nor baseline exists)
+      run: '{ [ ! -f scripts/governance/ratchet.baseline.json ] && [ ! -f scripts/governance/ratchet.config.json ]; } || node scripts/governance/ratchet-baseline.mjs'
+
+    # One fast, incremental whole-repo check is acceptable here (typecheck, cargo check, go vet).
+    # Do not put the full test suite in a hook: run the focused test for your change instead.

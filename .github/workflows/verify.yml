@@ -1,0 +1,58 @@
+name: verify
+
+on:
+  pull_request:
+  push:
+    branches: [main, master]
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [18, 22]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: Resolve the comparison base
+        env:
+          BASE_REF: ${{ github.base_ref }}
+          BEFORE: ${{ github.event.before }}
+        run: |
+          base=""
+          if [ -n "$BASE_REF" ]; then
+            base="origin/$BASE_REF"
+          elif [ -n "$BEFORE" ] && git cat-file -e "$BEFORE^{commit}" 2>/dev/null; then
+            base="$BEFORE"
+          fi
+          printf 'GOV_BASE=%s\n' "$base" >> "$GITHUB_ENV"
+
+      - name: Script tests (passing cases and negative controls)
+        run: node --test tests/
+
+      # Ceiling changes are enforced at PR review (BASE_REF only; protect the branch so changes
+      # land through PRs). Push runs skip --base so an approved governance-override merge keeps main green.
+      - name: Word budgets (SKILL.md, references, AGENTS.md, README)
+        env:
+          BASE_REF: ${{ github.base_ref }}
+          OVERRIDE: ${{ contains(github.event.pull_request.labels.*.name, 'governance-override') }}
+        run: |
+          set -- --manifest .github/doc-budgets.manifest.json
+          if [ -n "$BASE_REF" ]; then set -- "$@" --base "origin/$BASE_REF"; fi
+          if [ -n "$BASE_REF" ] && [ "$OVERRIDE" = "true" ]; then set -- "$@" --allow-ceiling-change; fi
+          node skills/sustainable-engineering/scripts/verify-doc-budgets.mjs "$@"
+
+      - name: Markdown links and anchors
+        run: node skills/sustainable-engineering/scripts/verify-md-links.mjs --exclude 'skills/*/templates/**'
+
+      - name: This repository's own Agent Notes
+        run: node skills/sustainable-engineering/scripts/verify-agent-notes.mjs ${GOV_BASE:+--base "$GOV_BASE"}
