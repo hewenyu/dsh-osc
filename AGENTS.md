@@ -19,7 +19,7 @@ tests/           script tests: passing cases and negative controls
 ## Commands
 
 ```sh
-node --test tests/
+node --test tests/*.test.mjs
 node skills/sustainable-engineering/scripts/verify-doc-budgets.mjs --manifest .github/doc-budgets.manifest.json
 node skills/sustainable-engineering/scripts/verify-md-links.mjs --exclude 'skills/*/templates/**'
 node skills/sustainable-engineering/scripts/verify-agent-notes.mjs

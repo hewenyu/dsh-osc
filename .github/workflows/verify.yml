@@ -37,7 +37,7 @@ jobs:
           printf 'GOV_BASE=%s\n' "$base" >> "$GITHUB_ENV"
 
       - name: Script tests (passing cases and negative controls)
-        run: node --test tests/
+        run: node --test tests/*.test.mjs
 
       # Ceiling changes are enforced at PR review (BASE_REF only; protect the branch so changes
       # land through PRs). Push runs skip --base so an approved governance-override merge keeps main green.
