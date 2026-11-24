@@ -33,7 +33,7 @@ node skills/sustainable-engineering/scripts/verify-agent-notes.mjs
 - **Scripts are standalone** `.mjs` files using only `node:` built-ins, Node.js 18+, with `--help` and exit codes 0 ok, 1 violation, 2 usage ([rationale](.agents/notes/implemented/architecture/2026-11-23-standalone-zero-dependency-scripts.md)).
 - **Every script change adds a passing test and a negative-control test** in `tests/scripts.test.mjs`, run in a temporary directory that the test removes.
 - **Templates must pass the scripts.** Tests load the note templates, budget manifest, and ratchet config; keep them valid.
-- **`README.md` is Chinese first with an English summary.** Install paths in it are user-facing contracts; verify them against each agent's documentation when changing them.
+- **`README.md` is Chinese and `README.en.md` is its English counterpart.** Keep install paths and core claims aligned across both; verify install paths against each agent's documentation when changing them.
 - **Prose rules** from [information-architecture.md](skills/sustainable-engineering/references/information-architecture.md) apply: current state, exact names, no reasoning transcripts.
 
 ## Editing these instructions
