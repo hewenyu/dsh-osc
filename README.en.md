@@ -116,7 +116,7 @@ All scripts support `--help` and `--version`, with uniform exit codes: `0` pass,
 
 | Home | Holds | Never holds | Deep dive |
 |---|---|---|---|
-| `AGENTS.md` (root & subtrees; `CLAUDE.md` symlinks to it) | Standing orders, 1–3 lines each + links | Stories, tutorials, restated details | [information-architecture.md](skills/sustainable-engineering/references/information-architecture.md) |
+| `AGENTS.md` (root & subtrees; `CLAUDE.md` imports `@AGENTS.md`) | Standing orders, 1–3 lines each + links | Stories, tutorials, restated details | [information-architecture.md](skills/sustainable-engineering/references/information-architecture.md) |
 | `docs/` | Current facts: architecture, defensive habits, cookbooks, postmortems | Rationale, plans, "previously" | [defensive-habits.md](skills/sustainable-engineering/references/defensive-habits.md) · [evolution-and-incidents.md](skills/sustainable-engineering/references/evolution-and-incidents.md) |
 | `.agents/notes/{lifecycle}/{class}/` | Why non-trivial decisions were made & what was rejected | Current-state reference, global `INDEX.md` | [agent-notes.md](skills/sustainable-engineering/references/agent-notes.md) |
 | Automated checks (Hooks / Scripts / CI) | Every recurring review lesson checkable by machine | Checks nobody runs | [mechanical-enforcement.md](skills/sustainable-engineering/references/mechanical-enforcement.md) · [review-and-audit.md](skills/sustainable-engineering/references/review-and-audit.md) |
@@ -129,7 +129,7 @@ Every rung delivers standalone value. Stop at the rung matching your repository 
 
 | Rung | Effort | What you adopt |
 |---|---|---|
-| **Day 1** | 15 min | Root `AGENTS.md` + `CLAUDE.md` symlink; `.agents/notes/`; first note for the decision most likely to be undone |
+| **Day 1** | 15 min | Root `AGENTS.md` + `CLAUDE.md` (`@AGENTS.md`); `.agents/notes/`; first note for the decision most likely to be undone |
 | **Week 1** | 1–2 hrs | Wire budgets, notes, and link checks into CI; prove each fails once; one-page `docs/architecture.md` |
 | **Growing team** | Ongoing | Promote repeated review comments to checks; ratchet legacy debt; `CODEOWNERS`, local hooks, defensive patterns, postmortems |
 | **Scale** | Ongoing | Numbered core guidelines, generated catalogs + freshness checks, append-only formats & archived notes, AST/linter ratchets |

@@ -1,6 +1,6 @@
 # AGENTS.md
 
-<!-- Root standing orders: rules every agent and contributor needs in every session. One to three lines per rule, each linking the document that owns the detail. Most sessions never load the sustainable-engineering skill, so every behavior a session must follow lives here. Create the CLAUDE.md alias with: ln -s AGENTS.md CLAUDE.md. Word ceiling: scripts/governance/doc-budgets.manifest.json. Links inside comments are not checked; move each into the text once its target exists. Delete this comment. -->
+<!-- Root standing orders: rules every agent and contributor needs in every session. One to three lines per rule, each linking the document that owns the detail. Most sessions never load the sustainable-engineering skill, so every behavior a session must follow lives here. Create CLAUDE.md containing one line: @AGENTS.md. Word ceiling: scripts/governance/doc-budgets.manifest.json. Links inside comments are not checked; move each into the text once its target exists. Delete this comment. -->
 
 <Project name> is <one sentence: what it is and who uses it>. Read [docs/architecture.md](docs/architecture.md) before changing `<src dir>/`; follow [docs/AGENTS.md](docs/AGENTS.md) when writing documentation.
 
@@ -54,4 +54,4 @@ node scripts/governance/ratchet-baseline.mjs   # once the ratchet is adopted (Gr
 
 ## Editing these instructions
 
-`CLAUDE.md` is a symlink to this file; edit `AGENTS.md`. Keep each rule self-contained and link its home. When over budget, move detail to its owning document before raising the ceiling.
+`CLAUDE.md` imports this file (`@AGENTS.md`); edit `AGENTS.md`. Keep each rule self-contained and link its home. When over budget, move detail to its owning document before raising the ceiling.
