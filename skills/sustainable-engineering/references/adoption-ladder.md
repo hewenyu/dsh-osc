@@ -11,7 +11,7 @@ Scripts below are copied from this skill's `scripts/` into the target repository
 Goal: every new agent session starts with the right rules, and decisions stop evaporating.
 
 1. Create a root `AGENTS.md` from [templates/AGENTS.md](../templates/AGENTS.md). Fill in only: one-paragraph orientation, layout, the commands you actually use, and the five to ten rules you have already repeated to an agent more than once. Delete placeholder rules you cannot fill truthfully.
-2. `ln -s AGENTS.md CLAUDE.md`.
+2. Create `CLAUDE.md` containing a single line: `@AGENTS.md`.
 3. `mkdir -p .agents/notes/{proposed,implemented,rejected}` and copy [templates/agent-notes-README.md](../templates/agent-notes-README.md) to `.agents/notes/README.md`. Class folders are created when the first note needs one.
 4. Write the first note about the decision you most fear an agent will undo (the database choice, the "no ORM" rule, the reason for the odd retry logic), using [templates/agent-note-implemented.md](../templates/agent-note-implemented.md). Link it from the matching `AGENTS.md` rule.
 

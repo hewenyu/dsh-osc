@@ -1008,7 +1008,7 @@ describe('templates compose into the adoption rungs', () => {
   }
   const day1 = (dir) => {
     write(dir, 'AGENTS.md', readFileSync(join(TEMPLATES, 'AGENTS.md'), 'utf8'))
-    if (process.platform !== 'win32') symlinkSync('AGENTS.md', join(dir, 'CLAUDE.md'))
+    write(dir, 'CLAUDE.md', '@AGENTS.md\n')
     write(dir, `${NOTES}/README.md`, readFileSync(join(TEMPLATES, 'agent-notes-README.md'), 'utf8'))
     write(dir, `${NOTES}/implemented/architecture/2026-01-05-sqlite-not-redis-for-job-state.md`, readFileSync(join(TEMPLATES, 'agent-note-implemented.md'), 'utf8'))
   }
@@ -1034,6 +1034,7 @@ describe('templates compose into the adoption rungs', () => {
     const dir = sandbox(t)
     day1(dir)
     write(dir, 'docs/AGENTS.md', readFileSync(join(TEMPLATES, 'docs-AGENTS.md'), 'utf8'))
+    write(dir, 'docs/CLAUDE.md', '@AGENTS.md\n')
     write(dir, 'docs/architecture.md', '# Architecture\n\nOne-page map.\n')
     write(dir, 'scripts/governance/doc-budgets.manifest.json', readFileSync(join(TEMPLATES, 'doc-budgets.manifest.json'), 'utf8'))
     copyScripts(dir, ['verify-doc-budgets.mjs', 'verify-agent-notes.mjs', 'verify-md-links.mjs'])

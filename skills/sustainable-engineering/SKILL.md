@@ -20,7 +20,7 @@ The loop breaks only when the missing context lives in the repository, in a plac
 
 | Home | Holds | Never holds |
 |---|---|---|
-| `AGENTS.md` (root and subtrees; `CLAUDE.md` symlinks to it) | Standing orders, one to three lines each, each linking its home | Stories, examples, procedures, restated detail |
+| `AGENTS.md` (root and subtrees; `CLAUDE.md` imports `@AGENTS.md`) | Standing orders, one to three lines each, each linking its home | Stories, examples, procedures, restated detail |
 | `docs/` | How the system works now: architecture, module contracts, guidelines, cookbooks, postmortems | History, rationale, plans, status annotations |
 | `.agents/notes/{lifecycle}/{class}/yyyy-mm-dd-topic.md` | Why a decision was made, and what was rejected | Current-state reference |
 | Checks (scripts, linters, tests, CI) | Every rule that can be checked mechanically | Rules nobody runs |
@@ -46,7 +46,7 @@ Tests guard the present. Notes guard the future. Postmortems turn each escape in
 Use when a repository has no `AGENTS.md`, or has one that grew into a wall. Most future sessions will not trigger this skill: put every standing behavior a session must follow into `AGENTS.md`.
 
 1. Audit first: run the health table in [review-and-audit.md](references/review-and-audit.md) to choose the starting rung. **Risk overrides rung:** an active incident runs Workflow D now; a pattern actively causing defects gets a ratchet rule on Day 1.
-2. Follow the matching rung of [adoption-ladder.md](references/adoption-ladder.md). Day 1 takes 15 minutes: `AGENTS.md` from [templates/AGENTS.md](templates/AGENTS.md), `ln -s AGENTS.md CLAUDE.md`, `.agents/notes/` with [the notes README](templates/agent-notes-README.md), and one note for the decision most at risk of being undone.
+2. Follow the matching rung of [adoption-ladder.md](references/adoption-ladder.md). Day 1 takes 15 minutes: `AGENTS.md` from [templates/AGENTS.md](templates/AGENTS.md), `CLAUDE.md` containing `@AGENTS.md`, `.agents/notes/` with [the notes README](templates/agent-notes-README.md), and one note for the decision most at risk of being undone.
 3. Brownfield: never rewrite everything. Move rationale into notes, rewrite history as current state, replace duplicated rules with links, and `--init` a ratchet baseline instead of fixing all legacy violations first.
 4. Fill templates only with facts you can verify in the repository. Delete placeholders you cannot fill.
 5. Wire the scripts into CI and make each fail once on purpose.

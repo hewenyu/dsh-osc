@@ -1,6 +1,6 @@
 # AGENTS.md — Documentation standard
 
-<!-- Copy to docs/AGENTS.md and create its alias with: ln -s AGENTS.md docs/CLAUDE.md (every directory with an AGENTS.md gets one). Adjust the tier table to the documents your repository actually has. Delete this comment. -->
+<!-- Copy to docs/AGENTS.md and create docs/CLAUDE.md containing @AGENTS.md (every directory with an AGENTS.md gets one). Adjust the tier table to the documents your repository actually has. Delete this comment. -->
 
 This file defines where each kind of fact lives and how documentation is written. It applies to `docs/`, package READMEs, and the root `AGENTS.md`; [Agent Notes](../.agents/notes/README.md) follow their own format.
 

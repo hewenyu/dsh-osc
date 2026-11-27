@@ -38,4 +38,4 @@ node skills/sustainable-engineering/scripts/verify-agent-notes.mjs
 
 ## Editing these instructions
 
-`CLAUDE.md` is a symlink to this file; edit `AGENTS.md`.
+`CLAUDE.md` imports this file (`@AGENTS.md`); edit `AGENTS.md` ([rationale](.agents/notes/implemented/process/2026-11-26-claude-md-import-over-symlink.md)).

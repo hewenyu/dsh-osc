@@ -139,7 +139,7 @@ flowchart LR
 
 | 归属层 | 放什么 | 绝不放什么 | 深入指南 |
 |---|---|---|---|
-| `AGENTS.md`（根与子树，`CLAUDE.md` 软链） | 每会话必读规则，1–3 行 + 链接 | 故事、教程、重复摘抄 | [information-architecture.md](skills/sustainable-engineering/references/information-architecture.md) |
+| `AGENTS.md`（根与子树，`CLAUDE.md` 用 `@AGENTS.md` 引用） | 每会话必读规则，1–3 行 + 链接 | 故事、教程、重复摘抄 | [information-architecture.md](skills/sustainable-engineering/references/information-architecture.md) |
 | `docs/` | 当前事实：架构图谱、防御习惯、操作手册、事故复盘 | 决策理由、计划、“以前/不再” | [defensive-habits.md](skills/sustainable-engineering/references/defensive-habits.md) · [evolution-and-incidents.md](skills/sustainable-engineering/references/evolution-and-incidents.md) |
 | `.agents/notes/{lifecycle}/{class}/` | 非平凡决策的动机、权衡与被放弃方案 | 当下接口手册、全局 `INDEX.md` | [agent-notes.md](skills/sustainable-engineering/references/agent-notes.md) |
 | 自动化检查（Hooks / Scripts / CI） | 凡出现两次以上的评审意见 | 没人跑的摆设检查 | [mechanical-enforcement.md](skills/sustainable-engineering/references/mechanical-enforcement.md) · [review-and-audit.md](skills/sustainable-engineering/references/review-and-audit.md) |
@@ -152,7 +152,7 @@ flowchart LR
 
 | 阶段 | 投入 | 落地内容 |
 |---|---|---|
-| **Day 1** | 15 分钟 | 根 `AGENTS.md` + `CLAUDE.md` 软链；建 `.agents/notes/`；写下最怕被 Agent 改掉的第 1 篇决策笔记 |
+| **Day 1** | 15 分钟 | 根 `AGENTS.md` + `CLAUDE.md`（`@AGENTS.md`）；建 `.agents/notes/`；写下最怕被 Agent 改掉的第 1 篇决策笔记 |
 | **Week 1** | 1–2 小时 | 字数预算、笔记格式、链接检查接入 CI；每个检查故意造错验证一次红灯；补一页 `docs/architecture.md` |
 | **团队成长** | 持续 | 重复 review 意见升格为门禁；用棘轮冻结老债；配 `CODEOWNERS`、本地 hook、防御习惯与事故复盘 |
 | **规模化** | 持续 | 编号设计准则、生成式目录 + 新鲜度门禁、已发布格式与归档笔记只追加、接入语言 AST/Linter 棘轮 |

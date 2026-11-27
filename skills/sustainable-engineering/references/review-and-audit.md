@@ -40,7 +40,7 @@ Score each row 0 (absent), 1 (partial), 2 (enforced by a check). Totals: under 8
 | # | Signal | How to measure |
 |---|---|---|
 | 1 | Root `AGENTS.md` exists, dense, links its homes | Read it; word count; lines without links that need them |
-| 2 | `CLAUDE.md` and other agent filenames resolve to `AGENTS.md` | `ls -l CLAUDE.md` |
+| 2 | `CLAUDE.md` and other agent filenames delegate to `AGENTS.md` | `cat CLAUDE.md` (`@AGENTS.md`) |
 | 3 | Facts and rationale separated | `rg -n -i -e 'we decided' -e 'we chose' -e previously -e 'no longer' docs/` |
 | 4 | Agent Notes exist with alternatives | `verify-agent-notes.mjs`; count notes per class |
 | 5 | No central index file | `find . -iname 'INDEX.md' -not -path '*/node_modules/*'` |
